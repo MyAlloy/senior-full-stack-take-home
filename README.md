@@ -5,22 +5,19 @@ Starter for the Alloy full-stack take-home. It is the smallest thing that runs e
 ## Getting started
 
 1. **Create your own private repo from this template.** Click **Use this template → Create a new repository** at the top of this page and set visibility to **Private**. Don't fork; forks of a public repo are public.
-2. Clone your new repo and install:
+2. Clone your new repo and start everything in Docker:
 
    ```sh
-   nvm use            # Node 22; see .nvmrc
-   corepack enable    # provides pnpm
-   pnpm install
+   docker compose up --build    # Postgres, API on :4000, web on :5173
    ```
 
-3. Start Postgres and the apps:
+   Docker is the only thing to install. Dependencies install and run inside the container, and only the repo folder is shared with it. Ports listen on localhost only.
 
-   ```sh
-   pnpm db:up         # Postgres 16 in Docker, on host port 5433
-   pnpm dev           # API on :4000, web on :5173
-   ```
+3. Open http://localhost:5173. You should see the API and database reporting ok.
 
-4. Open http://localhost:5173. You should see the API and database reporting ok.
+Run commands inside the container with `docker compose exec app <command>`, for example `docker compose exec app pnpm migrate`. If you add a dependency, run `docker compose up --build` again.
+
+To run without Docker for the apps, use Node 22 (`nvm use`), then run `corepack enable`, `pnpm install`, `pnpm db:up`, and `pnpm dev`. Postgres still runs in Docker on host port 5433.
 
 Postgres defaults are in `docker-compose.yml` and match the API's fallback connection string, so `.env` is optional. Copy `.env.example` to `.env` if you need to change ports or add API keys.
 

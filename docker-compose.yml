@@ -6,10 +6,27 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: takehome
     ports:
-      # 5433 on the host to avoid colliding with a locally installed Postgres.
-      - "5433:5432"
+      # Localhost only, and 5433 to avoid a locally installed Postgres.
+      - "127.0.0.1:5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on: [db]
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/takehome
+    ports:
+      - "127.0.0.1:4000:4000"
+      - "127.0.0.1:5173:5173"
+    volumes:
+      # Only the repo is shared with the host; node_modules stay inside the container.
+      - .:/app
+      - /app/node_modules
+      - /app/apps/api/node_modules
+      - /app/apps/web/node_modules
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
 
 volumes:
   pgdata:

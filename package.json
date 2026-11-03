@@ -6,7 +6,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "db:up": "docker compose up -d",
+    "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
     "dev": "pnpm -r --parallel dev",
     "test": "pnpm -r test",
