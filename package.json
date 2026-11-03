@@ -1,0 +1,16 @@
+{
+  "name": "senior-full-stack-take-home",
+  "private": true,
+  "packageManager": "pnpm@9.13.2",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "dev": "pnpm -r --parallel dev",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "migrate": "pnpm --filter api migrate"
+  }
+}
